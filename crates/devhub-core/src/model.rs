@@ -72,6 +72,8 @@ pub enum DriverKind {
     Atk,
     /// www.lamzu.net / Aurora 系 (64B feature report、if2 FFFF:00)。
     Lamzu,
+    /// Logitech HID++ 2.0 (PRO X SUPERLIGHT 等。usage FF00/0002、長レポート 0x11)。
+    Logi,
     /// 未割り当て (検出だけできる)。
     Unsupported,
 }

@@ -114,6 +114,23 @@ pub const KNOWN: &[KnownDevice] = &[
         Transport::Wired,
         false,
     ),
+    // ---------------------------------------------------------------- Logicool (HID++ 2.0)
+    // G PRO X SUPERLIGHT の Lightspeed レシーバー。HID++ 2.0 は
+    // usage_page FF00 / usage 0002 のコレクションだけが応答する (docs/LOGITECH_HIDPP.md)。
+    // 同じ PID の usage 0001 コレクションは別物なので、usage で必ず絞る。
+    KnownDevice {
+        vid: 0x046D,
+        pid: 0xC547,
+        usage_page: Some(0xFF00),
+        usage: Some(0x0002),
+        kind: DeviceKind::Mouse,
+        vendor: "Logicool",
+        model: "gpx-superlight",
+        name: "PRO X SUPERLIGHT",
+        transport: Transport::Wireless24G,
+        driver: DriverKind::Logi,
+        verified: false,
+    },
     // ---------------------------------------------------------------- USB DAC (peq.szwalkplay.com)
     // TP55 — 実機列挙: 3302:4383 if=0 up=000C u=01 "TP55"。
     // 設定は consumer control IF 上の report 0x4B (CB 系 S1 プロトコル)。

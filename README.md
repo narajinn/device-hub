@@ -35,6 +35,7 @@ with a Liquid Glass design.
 | HTS Plus Pro (wired + 2.4GHz dongle) | All settings incl. Rapid Trigger |
 | SU66 Max (Keebforce/Everglide) | Keymap, per-key perf, lighting, macros, live travel |
 | TP55 USB DAC | Parametric EQ |
+| PRO X SUPERLIGHT (HID++ 2.0, `046D:C547`) | Name, battery, DPI read/write, polling-rate (read-only) — see `docs/LOGITECH_HIDPP.md` |
 
 Other models using the same protocols (mouse.fit report-8/EEPROM, xsyd) are
 detected automatically by capability, not by device name.
@@ -135,6 +136,14 @@ UI は GPUI + Liquid Glass デザイン。
 
 HTS Plus Pro (有線+ドングル) · SU66 Max · TP55 USB DAC
 (同プロトコルの他機種も caps ベースで自動検出)
+
+### 常時起動 (ログオン時の自動起動)
+
+```powershell
+cargo build --release -p device-hub
+.\scripts\install-autostart.ps1          # スタートアップに登録
+.\scripts\install-autostart.ps1 -Uninstall
+```
 
 ### ビルド
 
