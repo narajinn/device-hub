@@ -35,7 +35,7 @@ with a Liquid Glass design.
 | HTS Plus Pro (wired + 2.4GHz dongle) | All settings incl. Rapid Trigger |
 | SU66 Max (Keebforce/Everglide) | Keymap, per-key perf, lighting, macros, live travel |
 | TP55 USB DAC | Parametric EQ |
-| PRO X SUPERLIGHT (HID++ 2.0, `046D:C547`) | Name, battery, DPI read/write, polling-rate (read-only) — see `docs/LOGITECH_HIDPP.md` |
+| PRO X SUPERLIGHT (HID++ 2.0, `046D:C547`) | Name, battery, DPI read/write — see `docs/LOGITECH_HIDPP.md`, `docs/REPLACING_GHUB.md` |
 
 Other models using the same protocols (mouse.fit report-8/EEPROM, xsyd) are
 detected automatically by capability, not by device name.
@@ -134,8 +134,11 @@ UI は GPUI + Liquid Glass デザイン。
 
 ### 動作確認デバイス
 
-HTS Plus Pro (有線+ドングル) · SU66 Max · TP55 USB DAC
+HTS Plus Pro (有線+ドングル) · SU66 Max · TP55 USB DAC · Logicool PRO X SUPERLIGHT (G HUB 置き換え)
 (同プロトコルの他機種も caps ベースで自動検出)
+
+Logicool の置き換え範囲 (できること/できないこと) と G HUB の削除手順は
+`docs/REPLACING_GHUB.md`。
 
 ### 常時起動 (ログオン時の自動起動)
 

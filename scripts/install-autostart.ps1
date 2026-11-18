@@ -1,4 +1,4 @@
-# ログオン時に Device HUB を自動起動する (G HUB の常駐の置き換え)
+﻿# ログオン時に Device HUB を自動起動する (G HUB の常駐の置き換え)
 #
 #   .\scripts\install-autostart.ps1                 # 登録 (既定: target\release\device-hub.exe)
 #   .\scripts\install-autostart.ps1 -Uninstall      # 解除
