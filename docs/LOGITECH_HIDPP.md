@@ -98,10 +98,17 @@ GPX でボタン変更を出すなら 0x8100 のセクター読み書き実装�
 
 ### バッテリー (0x1004)
 ```
-getCapabilities f0: 11 01 06 0a 0f 03      → levels=15, flags=0x03 (rechargeable)
-getStatus       f1: 11 01 06 1a 21 04      → level=0x21 (33%), status=0x04
+getCapabilities f0: 11 01 06 0a 0f 03      → レベル bit0..3 (Critical/Low/Good/Full), flags=0x03 (充電可 + %対応)
+getStatus       f1: 11 01 06 1a 1d 02 00   → 残量=0x1d (29%), level=0x02 (Low), status=0x00 (放電)
 ```
-`level` はパーセント。`status` の 4 は「放電中」相当 (要: 充電中の値と比較)。
+`getStatus` の payload は **3 バイト** (`残量% / レベル / 充電状態`)。レベルはビット値
+(1=Critical, 2=Low, 4=Good, 8=Full) で、**充電状態ではない**。2 バイト目を充電状態として
+読むと、残量が Low(2) に落ちた放電中でも「充電中」になる (実際にその取り違えで誤表示した)。
+
+充電状態: 0=放電, 1=充電, 2=充電終盤, 3=満充電, 4=低速充電, 5..=7=エラー。
+本アプリは 1/2/4 を「充電中」と表示する。
+
+生フレームの再取得: `cargo run --release -p devhub-hid --example batdump`
 
 ### DPI (0x2201)
 ```

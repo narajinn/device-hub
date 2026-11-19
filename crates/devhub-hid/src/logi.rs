@@ -280,11 +280,15 @@ impl Logi {
         if self.batt_id == 0 {
             return Err(HubError::Unsupported("バッテリー"));
         }
-        let r = self.ask::<2>(self.batt_id, 0x01, &[])?;
-        // 実測: 33% 放電中で status=0x04。0/4 は放電、1..=3 は充電系として扱う。
+        let r = self.ask::<3>(self.batt_id, 0x01, &[])?;
+        // `0x1004 getStatus` の payload は 3 バイト:
+        //   [0] 残量 %        [1] レベル (1=Critical 2=Low 4=Good 8=Full)
+        //   [2] 充電状態 (0=放電 1=充電 2=充電終盤 3=満充電 4=低速充電 5..=7=エラー)
+        // 2 バイト目を充電状態と取り違えると、残量が Low(2) になった時点で
+        // 放電中でも「充電中」になる (実測 29%・level=0x02・status=0x00)。
         Ok(Battery {
             percent: Some(r[0].min(100)),
-            charging: matches!(r[1], 1 | 2 | 3),
+            charging: matches!(r[2], 1 | 2 | 4),
         })
     }
 }
