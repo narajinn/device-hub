@@ -148,6 +148,10 @@ cargo build --release -p device-hub
 .\scripts\install-autostart.ps1 -Uninstall
 ```
 
+起動するとタスクトレイに常駐し、**最小化するとタスクトレイに格納**されます
+(タスクバーのボタンは消えます)。トレイのアイコンを左クリック、または
+「Device HUB を開く」で戻ります。× で閉じると終了します。
+
 ### ビルド
 
 ```sh

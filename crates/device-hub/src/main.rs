@@ -60,6 +60,8 @@ fn main() {
             }
 
             gpui_kit::open_window(options, cx, |window, cx| {
+                // 最小化 → トレイ格納、トレイから復帰 (windows のみ)。
+                device_hub::tray::install(window, cx);
                 cx.new(|cx| Shell::new(window, cx))
             })
             .expect("failed to open window");

@@ -90,6 +90,18 @@ Rust toolchain は `rust-toolchain.toml` で 1.95.0 固定 (gpui-kit 0.9.1 の�
 Linux でも `cargo check` は通る (gpui-pre-wgpu は vendor の backdrop を知らないので、Linux で
 ビルドするときだけ `.cargo/config.toml` で wgpu 側に 2 行のパッチが要る — Windows では不要)。
 
+### アイコンの埋め込み (`.rsrc`)
+
+`crates/device-hub/build-support/icon.rs` が `assets/icon.ico` を実行ファイルに埋める
+(窓・タスクバー・エクスプローラーはこのリソースを見る)。使うツールは順に:
+
+1. `rc.exe` (Windows SDK) — VERSIONINFO も入る
+2. `llvm-rc.exe` (LLVM。`LLVM_RC` か PATH か `%ProgramFiles%\LLVM\bin`) — VERSIONINFO も入る
+3. どちらも無ければ build script が `.res` を自前生成 — **アイコンのみ** (バージョン情報なし)
+
+VS Build Tools だけを入れた環境 (Windows SDK 無し) でも 2 か 3 でアイコンは付く。
+`cargo:warning` にどれを使ったか出る。
+
 ## 守ること
 
 - **UI は caps だけを見て出し分ける**。デバイス名・VID/PID で UI を分岐させない。
