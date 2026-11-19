@@ -45,18 +45,41 @@ cargo build --release -p device-hub
 
 ## 4. G HUB のアンインストール
 
-```powershell
-# 1) G HUB 本体とサービスを終了
-Get-Process LGHUB, lghub_agent, lghub_updater -ErrorAction SilentlyContinue | Stop-Process -Force
+実際に実行した手順 (2026-11-19):
 
-# 2) 公式アンインストーラ
-& "C:\Program Files\LGHUB\lghub_software_manager.exe" --uninstall
+```powershell
+# 1) 常駐プロセスを止める (lghub_updater は管理者権限なので残る → 手順 2 が止める)
+Get-Process lghub, lghub_agent, lghub_system_tray -ErrorAction SilentlyContinue | Stop-Process -Force
+
+# 2) 公式アンインストーラーを管理者として起動し、画面の指示に従う
+Start-Process "C:\Program Files\LGHUB\lghub_software_manager.exe" -ArgumentList "--uninstall" -Verb RunAs
 ```
 
-- 残るファイル: `C:\Program Files\LGHUB`, `%LOCALAPPDATA%\LGHUB`, `C:\ProgramData\LGHUB`
+- `winget uninstall Logitech.GHUB` は **MSI エラー 1287 で失敗**する (G HUB は MSI ではない)。
+  公式アンインストーラーを直接起動すること。
+- 削除後に消えるもの: `C:\Program Files\LGHUB`、`C:\ProgramData\LGHUB`、アンインストール
+  レジストリ、`LGHUBUpdaterService` などのサービス。
+- 残るもの: `%LOCALAPPDATA%\LGHUB` (設定とキャッシュ)。不要なら手で消してよい。
 - デバイス側の設定 (オンボードプロファイル) はマウスのフラッシュに残るので、
   G HUB を消してもレート・ボタン割当は最後の設定のまま動く。
-- 元に戻したくなったら公式サイトから再インストール (設定はデバイス側に残っている)。
+
+### 削除後に再確認したこと
+
+```
+$ cargo run -p devhub-hid --example logiprobe
+  name     : PRO X SUPERLIGHT
+  firmware : 4.2
+  dpi      : 1600
+  battery  : 30% charging=true
+
+$ cargo run -p devhub-hid --example dpiwrite
+  before : 1600 dpi
+  apply  : 800 -> read 800
+  restore: 1600 -> read 1600
+  OK
+```
+
+G HUB が無い状態でも読み取り・DPI 書き込みは通る。
 
 ## 5. 実装メモ
 
